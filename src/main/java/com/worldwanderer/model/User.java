@@ -42,6 +42,43 @@ public class User {
         return "Profile updated: " + this.toString();
     }
 
+    public java.util.List<ServiceProvider> searchServices(java.util.List<ServiceProvider> services, String criteria) {
+        java.util.List<ServiceProvider> results = new java.util.ArrayList<>();
+        for (ServiceProvider s : services) {
+            if (s.getName().toLowerCase().contains(criteria.toLowerCase())) {
+                results.add(s);
+            }
+        }
+        return results;
+    }
+
+    public java.util.List<ServiceProvider> filterOptions(java.util.List<ServiceProvider> services, java.util.List<Filter> filters) {
+        java.util.List<ServiceProvider> filtered = new java.util.ArrayList<>(services);
+
+        for (Filter f : filters) {
+            switch (f.getType().toLowerCase()) {
+                case "price":
+                    double maxPrice = (double) f.getValue();
+                    filtered.removeIf(s -> s.getPrice() > maxPrice);
+                    break;
+                case "rating":
+                    double minRating = (double) f.getValue();
+                    filtered.removeIf(s -> s.getRating() < minRating);
+                    break;
+            }
+        }
+        return filtered;
+    }
+
+    public ServiceProvider selectOption(java.util.List<ServiceProvider> services, int optionID) {
+        for (ServiceProvider s : services) {
+            if (s.getId() == optionID) {
+                return s;
+            }
+        }
+        return null;
+    }
+
     // --- Booking operations ---
     public List<Booking> viewBookingHistory() {
         return Collections.unmodifiableList(bookings);
@@ -59,7 +96,6 @@ public class User {
         return Collections.unmodifiableList(reviews);
     }
 
-    // --- Getters/Setters ---
     public int getUserId() { return userId; }
     public String getName() { return name; }
     public String getEmail() { return email; }

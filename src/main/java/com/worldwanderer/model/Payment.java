@@ -18,7 +18,6 @@ public class Payment {
         this.paymentDate = null;
     }
 
-    // --- Actions ---
     public String processPayment() {
         this.paymentStatus = "Completed";
         this.paymentDate = LocalDateTime.now();
@@ -34,7 +33,6 @@ public class Payment {
         }
     }
 
-    // --- Getters ---
     public int getPaymentId() { return paymentId; }
     public int getBookingId() { return bookingId; }
     public double getAmount() { return amount; }

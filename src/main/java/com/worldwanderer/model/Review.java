@@ -27,7 +27,6 @@ public class Review {
         return "Review " + reviewId + " updated: " + newRating + "/5 - " + newComment;
     }
 
-    // Getters
     public int getReviewId() { return reviewId; }
     public int getUserId() { return userId; }
     public int getServiceId() { return serviceId; }

@@ -32,12 +32,10 @@ public class Booking {
         return "Booking " + bookingId + " cancelled.";
     }
 
-    // --- New: Calculate total price (for now just base price) ---
     public double calculateTotalPriceForABooking() {
-        // Later: add taxes, extras, service fees here
         return price;
     }
-    // Getters
+
     public int getBookingId() { return bookingId; }
     public int getUserId() { return userId; }
     public String getServiceType() { return serviceType; }

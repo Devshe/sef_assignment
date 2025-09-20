@@ -1,11 +1,23 @@
 package com.worldwanderer.app;
 
+import com.worldwanderer.model.Accommodation;
 import com.worldwanderer.model.Booking;
+import com.worldwanderer.model.EmailNotification;
+import com.worldwanderer.model.Filter;
+import com.worldwanderer.model.Flight;
+import com.worldwanderer.model.Message;
 import com.worldwanderer.model.Payment;
+import com.worldwanderer.model.PaymentGateway;
 import com.worldwanderer.model.Review;
+import com.worldwanderer.model.ServiceProvider;
 import com.worldwanderer.model.User;
+import com.worldwanderer.model.Vehicle;
+import com.worldwanderer.model.WorldWandererAdmin;
 
-//From here Devmini Sheronie Perera Attapttuge S4183290 implemented (the end code-line is also marked with a comment)
+import java.util.Arrays;
+import java.util.List;
+
+//From here Devmini Sheronie Perera Attapttuge S4183290 implemented this whole class
 public class Main {
     public static void main(String[] args) {
         User user = new User(1, "Sheronie Perera", "sheronie@email.com", "hashedPassword", "000-111-222");
@@ -20,13 +32,13 @@ public class Main {
         // Confirm booking
         System.out.println(b1.confirmBooking());
 
-        // Cancel booking (dummy flow)
+        // Cancel booking
         System.out.println(b1.cancelBooking());
 
         Payment p1 = new Payment(2001, b1.getBookingId(), b1.calculateTotalPriceForABooking());
         System.out.println(p1.processPayment());
 
-        // Attempt Refund (dummy scenario)
+        // Attempt Refund
         System.out.println(p1.refundPayment());
 
         //Add Review
@@ -39,6 +51,29 @@ public class Main {
         // Edit Profile
         System.out.println(user.editProfile("Sheronie Silva", "sheronie.silva@email.com", "999-888-777"));
 
+        List<ServiceProvider> allServices = Arrays.asList(
+                new Flight(301, "SriLankan Airlines", 500.0, 4.5, "Colombo", "Sydney"),
+                new Flight(302, "Qatar Airways", 650.0, 4.8, "Colombo", "London"),
+                new Accommodation(401, "Hilton Hotel", 200.0, 4.2, "Sydney"),
+                new Vehicle(501, "Toyota Corolla", 80.0, 4.0, "Sedan")
+        );
+
+        // --- Search by keyword ---
+        List<ServiceProvider> searchResults = user.searchServices(allServices, "SriLankan");
+        System.out.println("\nSearch Results:");
+        searchResults.forEach(System.out::println);
+
+        // --- Filter services by price <= 500 ---
+        List<Filter> filters = Arrays.asList(new Filter("price", 500.0));
+        List<ServiceProvider> filteredResults = user.filterOptions(allServices, filters);
+        System.out.println("\nFiltered Results (price <= 500):");
+        filteredResults.forEach(System.out::println);
+
+        // --- Select specific service ---
+        ServiceProvider selected = user.selectOption(allServices, 401);
+        System.out.println("\nSelected Service:");
+        System.out.println(selected);
+
         // Display history
         System.out.println("\nBookings:");
         user.viewBookingHistory().forEach(b -> System.out.println(b.getSummary()));
@@ -46,8 +81,28 @@ public class Main {
         System.out.println("\nReviews:");
         user.getReviews().forEach(r -> System.out.println(r.getSummary()));
 
-        System.out.println(user.logout());
+        // --- Messaging feature ---
+        Message msg = new Message(701, user.getUserId(), 999, "Hello, I need help with my booking.");
+        System.out.println("\n" + msg.sendMessage());
+        System.out.println(msg.receiveMessage());
 
-        // To here Devmini Sheronie Perera Attapttuge S4183290 implemented this class
+        // --- PaymentGateway integration ---
+        PaymentGateway gateway = new PaymentGateway(1, "Stripe");
+        System.out.println("\n" + gateway.processPayment(p1));
+        System.out.println(gateway.refundPayment(p1));
+
+        // --- Admin actions ---
+        WorldWandererAdmin admin = new WorldWandererAdmin(100, "AdminUser", "Manager");
+        System.out.println("\n" + admin.manageServiceProvider(selected, "Approve"));
+        System.out.println(admin.setServiceFee("Flight", 25.0));
+        System.out.println(admin.viewReports());
+
+        // --- Email notifications ---
+        EmailNotification email = new EmailNotification(9001, user.getEmail(),
+                "Booking Confirmation", "Your booking has been confirmed!");
+        System.out.println("\n" + email.sendConfirmation(b1));
+        System.out.println(email.sendItinerary(b1));
+
+        System.out.println(user.logout());
     }
 }
