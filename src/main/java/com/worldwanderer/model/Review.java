@@ -7,9 +7,10 @@ public class Review {
     private int reviewId;
     private int userId;
     private int serviceId;
-    private int rating; // 1-5
+    private int rating;
     private String comment;
     private LocalDate date;
+    private boolean deleted;
 
     public Review(int reviewId, int userId, int serviceId, int rating, String comment) {
         this.reviewId = reviewId;
@@ -25,6 +26,15 @@ public class Review {
         this.comment = newComment;
         this.date = LocalDate.now(); // refresh edit date
         return "Review " + reviewId + " updated: " + newRating + "/5 - " + newComment;
+    }
+
+    public String deleteReview() {
+        if (!deleted) {
+            deleted = true;
+            return "Review " + reviewId + " has been deleted.";
+        } else {
+            return "Review " + reviewId + " is already deleted.";
+        }
     }
 
     public int getReviewId() { return reviewId; }

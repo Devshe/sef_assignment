@@ -1,4 +1,5 @@
 package com.worldwanderer.model;
+
 //Devmini Sheronie Perera Attapttuge S4183290 implemented this class
 public abstract class ServiceProvider {
     private int id;
@@ -17,6 +18,10 @@ public abstract class ServiceProvider {
     public String getName() { return name; }
     public double getPrice() { return price; }
     public double getRating() { return rating; }
+
+    public abstract String addService();
+    public abstract String updateService(String newName, double newPrice, double newRating);
+    public abstract String deleteService();
 
     @Override
     public String toString() {

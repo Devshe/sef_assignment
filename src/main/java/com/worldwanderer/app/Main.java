@@ -74,6 +74,27 @@ public class Main {
         System.out.println("\nSelected Service:");
         System.out.println(selected);
 
+        Flight f1 = (Flight) allServices.get(0);
+        System.out.println("\n" + f1.getFlightDetails());
+
+        Accommodation a1 = (Accommodation) allServices.get(2);
+        System.out.println(a1.getAccommodationDetails());
+
+        Vehicle v1 = (Vehicle) allServices.get(3);
+        System.out.println(v1.getVehicleDetails());
+
+        System.out.println("\n" + f1.addService());
+        System.out.println(f1.updateService("SriLankan Airlines - Updated", 550.0, 4.7));
+        System.out.println(f1.deleteService());
+
+        System.out.println("\n" + a1.addService());
+        System.out.println(a1.updateService("Hilton Deluxe", 250.0, 4.5));
+        System.out.println(a1.deleteService());
+
+        System.out.println("\n" + v1.addService());
+        System.out.println(v1.updateService("Toyota Corolla Hybrid", 100.0, 4.6));
+        System.out.println(v1.deleteService());
+
         // Display history
         System.out.println("\nBookings:");
         user.viewBookingHistory().forEach(b -> System.out.println(b.getSummary()));
@@ -81,23 +102,23 @@ public class Main {
         System.out.println("\nReviews:");
         user.getReviews().forEach(r -> System.out.println(r.getSummary()));
 
-        // --- Messaging feature ---
+        // Messaging feature
         Message msg = new Message(701, user.getUserId(), 999, "Hello, I need help with my booking.");
         System.out.println("\n" + msg.sendMessage());
         System.out.println(msg.receiveMessage());
 
-        // --- PaymentGateway integration ---
+        // PaymentGateway
         PaymentGateway gateway = new PaymentGateway(1, "Stripe");
         System.out.println("\n" + gateway.processPayment(p1));
         System.out.println(gateway.refundPayment(p1));
 
-        // --- Admin actions ---
+        // Admin actions
         WorldWandererAdmin admin = new WorldWandererAdmin(100, "AdminUser", "Manager");
         System.out.println("\n" + admin.manageServiceProvider(selected, "Approve"));
         System.out.println(admin.setServiceFee("Flight", 25.0));
         System.out.println(admin.viewReports());
 
-        // --- Email notifications ---
+        // Email notifications
         EmailNotification email = new EmailNotification(9001, user.getEmail(),
                 "Booking Confirmation", "Your booking has been confirmed!");
         System.out.println("\n" + email.sendConfirmation(b1));

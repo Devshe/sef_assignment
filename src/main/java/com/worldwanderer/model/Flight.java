@@ -12,6 +12,31 @@ public class Flight extends ServiceProvider {
     }
 
     @Override
+    public String addService() {
+        return "Flight '" + getName() + "' added: " + origin + " → " + destination;
+    }
+
+    @Override
+    public String updateService(String newName, double newPrice, double newRating) {
+        return "Flight '" + getName() + "' updated → Name: " + newName +
+                ", Price: $" + newPrice + ", Rating: " + newRating;
+    }
+
+    @Override
+    public String deleteService() {
+        return "Flight '" + getName() + "' deleted.";
+    }
+
+    public String getFlightDetails() {
+        return "Flight Details → " +
+                "Airline: " + getName() +
+                ", Origin: " + origin +
+                ", Destination: " + destination +
+                ", Price: $" + getPrice() +
+                ", Rating: " + getRating();
+    }
+
+    @Override
     public String toString() {
         return super.toString() + " [Flight: " + origin + " → " + destination + "]";
     }
